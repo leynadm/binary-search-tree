@@ -12,7 +12,6 @@ class Tree {
     constructor(data){
         this.data = data
         this.root;
-
     }
 
 
@@ -35,7 +34,7 @@ class Tree {
 
             let indexMiddle = Math.floor((indexStart + indexEnd)/2);
 
-            let root = new Tree(orderedArr[indexMiddle])
+            let root = new Node(orderedArr[indexMiddle])
             
             root.left = createTree(arr,indexStart,indexMiddle-1);
             
@@ -43,22 +42,10 @@ class Tree {
             
             return root;
 
-        }
+        } 
 
-        const prettyPrint = (node, prefix = '', isLeft = true) => {
-            if (node.right !== null) {
-              prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-            }
-            console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-            if (node.left !== null) {
-              prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-            }
-          }
-
-          prettyPrint(createTree(orderedArr))
-
+        this.root = createTree(orderedArr);
     }
-
 
     sortAndRemoveDuplicates(data){
 
@@ -95,10 +82,90 @@ class Tree {
             return [...sortedArr,...arrayLeft,...arrayRight]
         
         }
-        console.log(mergeSort(data))
+
         return mergeSort(data)
     }
+
+    prettyPrint(node = this.root, prefix = '', isLeft = true) {
+        if (node.right !== null) {
+          this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        }
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+        if (node.left !== null) {
+          this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+        }
+    }
+
+    insert(root,data){
+
+        if(root == null){
+            root = new Node(data);
+            return root;
+        }
+
+        if(data < root.data){
+            root.left = this.insert(root.left,data);
+        } else if (data > root.data){
+            root.right = this.insert(root.right,data)
+        }
+
+        return root
+    }
+
+
+    delete(root,data){
+
+            
+    /* Base Case: If the tree is empty */
+        if (root == null)
+            return root;
+  
+        /* Otherwise, recur down the tree */
+        if (data < root.data)
+            root.left = this.delete(root.left, data);
+        else if (data > root.data)
+            root.right = this.delete(root.right, data);
+  
+        // if data is same as root's
+        // data, then This is the
+        // node to be deleted
+        else {
+            // node with only one child or no child
+            if (root.left == null)
+                return root.right;
+            else if (root.right == null)
+                return root.left;
+  
+            // node with two children: Get the inorder
+            // successor (smallest in the right subtree)
+            root.data = this.minValue(root.right);
+  
+            // Delete the inorder successor
+            root.right = this.delete(root.right, root.data);
+        }
+  
+        return root;
+    }
+
+    minValue(root){
+        let minv = root.data;
+            while (root.left != null)
+            {
+                minv = root.left.data;
+                root = root.left;
+            }
+            return minv;
+        }
 }
 
 let myTree = new Tree(randomArr);
 myTree.buildTree(randomArr)
+//myTree.insert(myTree.root,6);
+//myTree.prettyPrint(myTree.root);
+//myTree.insert(myTree.root,2);
+//myTree.prettyPrint(myTree.root);
+//myTree.delete(myTree.root,2);
+myTree.insert(myTree.root,5000);
+myTree.prettyPrint(myTree.root);
+myTree.delete(myTree.root,8);
+myTree.prettyPrint(myTree.root);
