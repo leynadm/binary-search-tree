@@ -1,4 +1,5 @@
-randomArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+//randomArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+randomArr = [1,2,3]
 
 class Node {
     constructor(data=null,left=null,right=null){
@@ -155,7 +156,21 @@ class Tree {
                 root = root.left;
             }
             return minv;
+    }
+
+    find(node, data){
+
+        if (node == null) {
+            return null;  // data not found
         }
+        if (data < node.data) {
+            return this.find(node.left, data);
+        } else if (data > node.data) {
+            return this.find(node.right, data);
+        } else {  // data == node.data
+            return node;  // data found
+        }
+    }
 }
 
 let myTree = new Tree(randomArr);
@@ -169,3 +184,5 @@ myTree.insert(myTree.root,5000);
 myTree.prettyPrint(myTree.root);
 myTree.delete(myTree.root,8);
 myTree.prettyPrint(myTree.root);
+let findNumber = myTree.find(myTree.root,4);
+console.log(findNumber)
