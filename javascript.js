@@ -171,6 +171,55 @@ class Tree {
             return node;  // data found
         }
     }
+
+    levelOrder(node){
+
+        /*  Function using iteration
+        let queueArr = []
+        let result = []
+
+        if(node == null) return
+        
+        queueArr.push(node)
+
+        console.log(this.node)
+        while(queueArr.length > 0){
+
+            let current = queueArr.shift(node);
+            result.push(current.data)
+
+            if(current.left != null){
+                queueArr.push(current.left);
+            }
+
+            if(current.right != null){
+                queueArr.push(current.right)
+            }            
+        }
+
+        return result*/
+
+        // Function using recursion
+
+        let result = [];
+        
+        function traverse(node) {
+        
+            if (node == null) return;
+        
+            result.push(node.data);
+        
+            traverse(node.left);
+        
+            traverse(node.right);
+        }
+        
+        traverse(node);
+        
+        return result;
+    }
+
+    
 }
 
 let myTree = new Tree(randomArr);
@@ -186,3 +235,5 @@ myTree.delete(myTree.root,8);
 myTree.prettyPrint(myTree.root);
 let findNumber = myTree.find(myTree.root,4);
 console.log(findNumber)
+let myArrayOfReturnedValues = myTree.levelOrder(myTree.root)
+console.log(myArrayOfReturnedValues);
