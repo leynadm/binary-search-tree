@@ -1,5 +1,5 @@
 //randomArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-randomArr = [1,2,3]
+randomArr = [1,2,3,4,5,6]
 
 class Node {
     constructor(data=null,left=null,right=null){
@@ -219,21 +219,40 @@ class Tree {
         return result;
     }
 
-    
+    height(node) {
+        // If the node is null, return -1 (since the height of a null node is undefined)
+        if (node === null) return -1;
+      
+        // Calculate the height of the left and right children
+        const leftHeight = this.height(node.left);
+        const rightHeight = this.height(node.right);
+      
+        // Return the maximum of the left and right heights, plus 1 for the current node
+        return Math.max(leftHeight, rightHeight) + 1;
+      }
+
+    depth(node, root) {
+        // If the node is null, return -1 (since the depth of a null node is undefined)
+        if (node === null) return -1;
+      
+        // If the node is the root, return 0 (since the depth of the root is 0)
+        if (node === root) return 0;
+      
+        // Calculate the depth of the node by adding 1 to the maximum depth of its children
+        return Math.max(depth(node.left, root), depth(node.right, root)) + 1;
+      }
 }
 
 let myTree = new Tree(randomArr);
 myTree.buildTree(randomArr)
-//myTree.insert(myTree.root,6);
-//myTree.prettyPrint(myTree.root);
-//myTree.insert(myTree.root,2);
-//myTree.prettyPrint(myTree.root);
-//myTree.delete(myTree.root,2);
-myTree.insert(myTree.root,5000);
-myTree.prettyPrint(myTree.root);
-myTree.delete(myTree.root,8);
-myTree.prettyPrint(myTree.root);
+myTree.prettyPrint(myTree.root)
 let findNumber = myTree.find(myTree.root,4);
-console.log(findNumber)
+//console.log(findNumber)
 let myArrayOfReturnedValues = myTree.levelOrder(myTree.root)
-console.log(myArrayOfReturnedValues);
+//console.log(myArrayOfReturnedValues);
+//myTree.preorder(myTree.data,myTree.printNode)
+//myTree.postorder(myTree.data,myTree.printNode)
+let me = myTree.height(myTree.root)
+console.log(me)
+let ne = myTree.depth(myTree.root, myTree.root)
+console.log(ne)
