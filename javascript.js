@@ -241,6 +241,70 @@ class Tree {
         // Calculate the depth of the node by adding 1 to the maximum depth of its children
         return Math.max(depth(node.left, root), depth(node.right, root)) + 1;
       }
+
+    preorder(node,callback){
+
+        if(node===null) return []
+        
+        let results = []
+
+        if(callback){
+            callback(node.data)
+        }
+        
+        let leftResults = this.preorder(node.left,callback)
+        let rightResults = this.preorder(node.right,callback)
+        
+        results = results.concat([node.data]).concat(leftResults).concat(rightResults);
+        
+        if(!callback) return results;
+    }
+
+    postorder(node,callback){
+
+        if(node===null) return []
+        
+        let results = []
+
+        let leftResults = this.preorder(node.left,callback)
+        let rightResults = this.preorder(node.right,callback)
+
+        if(callback){
+            callback(node.data)    
+        }    
+
+
+        results = results.concat(leftResults).concat(rightResults).concat([node.data]);
+        
+        if(!callback) return results;
+
+    }
+
+    inorder(node,callback){
+
+        if (node === null) return [];
+
+        let results = [];
+        
+        let leftResults = this.inorder(node.left,callback);
+        
+        if(callback){
+            callback(node.data)
+        }
+
+        let rightResults = this.inorder(node.right,callback);
+      
+        results = results.concat(leftResults).concat([node.data]).concat(rightResults);
+        
+        if(!callback) return results;
+
+    }
+
+
+
+    printNode(node){
+        console.log(node)
+    }
 }
 
 let myTree = new Tree(randomArr);
@@ -252,7 +316,10 @@ let myArrayOfReturnedValues = myTree.levelOrder(myTree.root)
 //console.log(myArrayOfReturnedValues);
 //myTree.preorder(myTree.data,myTree.printNode)
 //myTree.postorder(myTree.data,myTree.printNode)
-let me = myTree.height(myTree.root)
-console.log(me)
-let ne = myTree.depth(myTree.root, myTree.root)
-console.log(ne)
+let myArr = myTree.preorder(myTree.root)
+let myArrRight = myTree.postorder(myTree.root)
+let myArrOrder = myTree.inorder(myTree.root)
+console.log(myArr)
+console.log(myArrRight)
+console.log(myArrOrder)
+
