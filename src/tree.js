@@ -1,15 +1,6 @@
-//randomArr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-randomArr = [1,2,3,4,5,6]
+import Node from "./node";
 
-class Node {
-    constructor(data=null,left=null,right=null){
-        this.data = data
-        this.left = left
-        this.right = right
-    }
-}
-
-class Tree {
+export class Tree {
     constructor(data){
         this.data = data
         this.root;
@@ -273,7 +264,6 @@ class Tree {
             callback(node.data)    
         }    
 
-
         results = results.concat(leftResults).concat(rightResults).concat([node.data]);
         
         if(!callback) return results;
@@ -300,26 +290,43 @@ class Tree {
 
     }
 
+    isBalanced(node){
 
+        if(node===null) return true
+
+        const leftBalanced = this.isBalanced(node.left)
+
+        if(!leftBalanced){
+            return false
+        }
+
+        const rightBalanced = this.isBalanced(node.right)
+
+        if(!rightBalanced){
+            return false
+        }
+
+        const leftHeight = this.height(node.left)
+        const rightHeight = this.height(node.right)
+
+        if(Math.abs(leftHeight-rightHeight)>1){
+            return false
+        }
+
+        return true
+    }
+
+    rebalance(){
+
+        // Create an array to store the nodes in-order traversal
+
+        const inOrderList = this.inorder(this.root)
+
+        this.buildTree(inOrderList)
+        
+    }
 
     printNode(node){
         console.log(node)
     }
 }
-
-let myTree = new Tree(randomArr);
-myTree.buildTree(randomArr)
-myTree.prettyPrint(myTree.root)
-let findNumber = myTree.find(myTree.root,4);
-//console.log(findNumber)
-let myArrayOfReturnedValues = myTree.levelOrder(myTree.root)
-//console.log(myArrayOfReturnedValues);
-//myTree.preorder(myTree.data,myTree.printNode)
-//myTree.postorder(myTree.data,myTree.printNode)
-let myArr = myTree.preorder(myTree.root)
-let myArrRight = myTree.postorder(myTree.root)
-let myArrOrder = myTree.inorder(myTree.root)
-console.log(myArr)
-console.log(myArrRight)
-console.log(myArrOrder)
-
